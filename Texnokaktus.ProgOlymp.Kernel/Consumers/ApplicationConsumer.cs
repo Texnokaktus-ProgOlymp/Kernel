@@ -43,6 +43,7 @@ file static class MappingExtensions
             application.YandexIdLogin,
             application.ParticipantGrade,
             application.PersonalDataConsent,
+            application.ContestStageId,
             participant,
             school,
             parent,

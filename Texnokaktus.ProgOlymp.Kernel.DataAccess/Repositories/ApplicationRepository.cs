@@ -16,6 +16,7 @@ internal class ApplicationRepository(AppDbContext context) : IApplicationReposit
             YandexIdLogin = insertModel.YandexIdLogin,
             Grade = insertModel.Grade,
             PersonalDataConsent = insertModel.PersonalDataConsent,
+            ContestStageId = insertModel.ContestStageId,
             Participant = insertModel.Participant,
             School = insertModel.School,
             Parent = insertModel.Parent,

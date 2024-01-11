@@ -8,6 +8,7 @@ public record Application
     public string YandexIdLogin { get; set; }
     public string Grade { get; set; }
     public bool PersonalDataConsent { get; set; }
+    public int ContestStageId { get; set; }
     public Participant Participant { get; set; }
     public int ParticipantId { get; set; }
     public School School { get; set; }
