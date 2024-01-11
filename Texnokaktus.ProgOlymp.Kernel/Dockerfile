@@ -8,6 +8,8 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Texnokaktus.ProgOlymp.Kernel/Texnokaktus.ProgOlymp.Kernel.csproj", "Texnokaktus.ProgOlymp.Kernel/"]
+COPY ["modules/Common.Contracts/Texnokaktus.ProgOlymp.Common.Contracts/Texnokaktus.ProgOlymp.Common.Contracts.csproj", "modules/Common.Contracts/Texnokaktus.ProgOlymp.Common.Contracts/"]
+COPY ["Texnokaktus.ProgOlymp.Kernel.DataAccess/Texnokaktus.ProgOlymp.Kernel.DataAccess.csproj", "Texnokaktus.ProgOlymp.Kernel.DataAccess/"]
 RUN dotnet restore "Texnokaktus.ProgOlymp.Kernel/Texnokaktus.ProgOlymp.Kernel.csproj"
 COPY . .
 WORKDIR "/src/Texnokaktus.ProgOlymp.Kernel"

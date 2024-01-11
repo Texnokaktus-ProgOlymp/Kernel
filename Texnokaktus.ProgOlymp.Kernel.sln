@@ -2,6 +2,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Texnokaktus.ProgOlymp.Kernel", "Texnokaktus.ProgOlymp.Kernel\Texnokaktus.ProgOlymp.Kernel.csproj", "{D062331F-4BE3-40D5-A91D-29DFE537330E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{910974DD-6F5B-4EC9-9489-0F5444FB9432}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Texnokaktus.ProgOlymp.Common.Contracts", "modules\Common.Contracts\Texnokaktus.ProgOlymp.Common.Contracts\Texnokaktus.ProgOlymp.Common.Contracts.csproj", "{DFE15C19-15AF-41E6-AB35-C98A19158FFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Texnokaktus.ProgOlymp.Kernel.DataAccess", "Texnokaktus.ProgOlymp.Kernel.DataAccess\Texnokaktus.ProgOlymp.Kernel.DataAccess.csproj", "{32F5CAAB-B2A1-4949-873C-633D752BF1F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +18,16 @@ Global
 		{D062331F-4BE3-40D5-A91D-29DFE537330E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D062331F-4BE3-40D5-A91D-29DFE537330E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D062331F-4BE3-40D5-A91D-29DFE537330E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFE15C19-15AF-41E6-AB35-C98A19158FFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFE15C19-15AF-41E6-AB35-C98A19158FFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFE15C19-15AF-41E6-AB35-C98A19158FFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFE15C19-15AF-41E6-AB35-C98A19158FFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32F5CAAB-B2A1-4949-873C-633D752BF1F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32F5CAAB-B2A1-4949-873C-633D752BF1F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32F5CAAB-B2A1-4949-873C-633D752BF1F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32F5CAAB-B2A1-4949-873C-633D752BF1F6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DFE15C19-15AF-41E6-AB35-C98A19158FFE} = {910974DD-6F5B-4EC9-9489-0F5444FB9432}
 	EndGlobalSection
 EndGlobal
