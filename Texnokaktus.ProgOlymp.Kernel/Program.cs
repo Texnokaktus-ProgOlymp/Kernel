@@ -4,6 +4,8 @@ using Serilog;
 using Texnokaktus.ProgOlymp.Kernel.Consumers;
 using Texnokaktus.ProgOlymp.Kernel.DataAccess;
 using Texnokaktus.ProgOlymp.Kernel.Extensions;
+using Texnokaktus.ProgOlymp.Kernel.Jobs;
+using Texnokaktus.ProgOlymp.Kernel.Models.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,19 @@ builder.Services.AddMassTransit(configurator =>
         factoryConfigurator.ConfigureEndpoints(context);
     });
 });
+
+builder.Services
+       .AddQuartz(configurator =>
+        {
+            var jobSettings = builder.Configuration.GetSection(nameof(JobSettings)).Get<JobSettings>()
+                           ?? throw new("Invalid configuration");
+
+            configurator.AddJob<ApplicationTransactionProcessor>(jobConfigurator => jobConfigurator.WithIdentity(nameof(ApplicationTransactionProcessor)));
+            configurator.AddTrigger(triggerConfigurator => triggerConfigurator.ForJob(nameof(ApplicationTransactionProcessor))
+                                                                              .WithIdentity($"{nameof(ApplicationTransactionProcessor)}-trigger")
+                                                                              .WithCronSchedule(jobSettings.ApplicationTransactionProcessor.Schedule));
+        })
+       .AddQuartzHostedService();
 
 builder.Services.AddDataAccess(optionsBuilder => optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDb")));
 

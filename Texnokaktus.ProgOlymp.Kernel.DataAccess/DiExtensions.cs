@@ -15,6 +15,7 @@ public static class DiExtensions
         services.AddDbContext<AppDbContext>(optionsAction)
                 .AddScoped<IUnitOfWork, UnitOfWork>()
                 .AddScoped<IApplicationRepository, ApplicationRepository>()
+                .AddScoped<IApplicationTransactionRepository, ApplicationTransactionRepository>()
                 .AddScoped<IParentRepository, ParentRepository>()
                 .AddScoped<IParticipantRepository, ParticipantRepository>()
                 .AddScoped<ISchoolRepository, SchoolRepository>()

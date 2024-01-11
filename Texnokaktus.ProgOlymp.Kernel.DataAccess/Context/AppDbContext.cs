@@ -6,6 +6,7 @@ namespace Texnokaktus.ProgOlymp.Kernel.DataAccess.Context;
 public class AppDbContext(DbContextOptions options) : DbContext(options)
 {
     public DbSet<Application> Applications => Set<Application>();
+    public DbSet<ApplicationTransaction> ApplicationTransactions => Set<ApplicationTransaction>();
     public DbSet<Parent> Parents => Set<Parent>();
     public DbSet<Participant> Participants => Set<Participant>();
     public DbSet<School> Schools => Set<School>();

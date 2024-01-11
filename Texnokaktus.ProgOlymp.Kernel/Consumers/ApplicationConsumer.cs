@@ -3,6 +3,7 @@ using Texnokaktus.ProgOlymp.Common.Contracts.Messages.GoogleForms;
 using Texnokaktus.ProgOlymp.Kernel.DataAccess.Entities;
 using Texnokaktus.ProgOlymp.Kernel.DataAccess.Models;
 using Texnokaktus.ProgOlymp.Kernel.DataAccess.Services.Abstractions;
+using State = Texnokaktus.ProgOlymp.Kernel.DataAccess.Entities.State;
 
 namespace Texnokaktus.ProgOlymp.Kernel.Consumers;
 
@@ -25,8 +26,10 @@ public class ApplicationConsumer(ILogger<ApplicationConsumer> logger, IUnitOfWor
         var teacher = teacherInsertModel is not null ? unitOfWork.TeacherRepository.Add(teacherInsertModel) : null;
 
         var applicationInsertModel = context.Message.GetApplication(participant, school, parent, teacher);
-        unitOfWork.ApplicationRepository.Add(applicationInsertModel);
-       
+        var application = unitOfWork.ApplicationRepository.Add(applicationInsertModel);
+
+        unitOfWork.ApplicationTransactionRepository.Add(new(application, State.Pending));
+
         await unitOfWork.SaveChangesAsync();
     }
 }
