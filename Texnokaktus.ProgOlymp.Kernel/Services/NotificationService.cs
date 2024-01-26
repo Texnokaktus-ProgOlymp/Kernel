@@ -23,7 +23,7 @@ internal class NotificationService(IEmailNotificationService emailNotificationSe
         await Task.WhenAll(emailNotificationService.SendIncorrectEmailDomainNotificationAsync(email),
                            googleSheetsNotificationService.SendIncorrectEmailDomainNotificationAsync(applicationId));
 
-    public async Task SendYandexIdLoginDuplicateNotificationAsync(int applicationId, string email) =>
+    public async Task SendYandexIdLoginDuplicateNotificationAsync(int applicationId, string email, string yandexIdLogin) =>
         await Task.WhenAll(emailNotificationService.SendYandexIdLoginDuplicateNotificationAsync(email),
-                           googleSheetsNotificationService.SendYandexIdLoginDuplicateNotificationAsync(applicationId));
+                           googleSheetsNotificationService.SendYandexIdLoginDuplicateNotificationAsync(applicationId, yandexIdLogin));
 }

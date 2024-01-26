@@ -15,6 +15,6 @@ internal class GoogleSheetsNotificationService(IPublishEndpoint bus) : IGoogleSh
     public async Task SendIncorrectEmailDomainNotificationAsync(int applicationId) =>
         await bus.Publish(new IncorrectEmailDomainMessage(applicationId));
 
-    public async Task SendYandexIdLoginDuplicateNotificationAsync(int applicationId) =>
-        await bus.Publish(new YandexIdLoginDuplicated(applicationId));
+    public async Task SendYandexIdLoginDuplicateNotificationAsync(int applicationId, string yandexIdLogin) =>
+        await bus.Publish(new YandexIdLoginDuplicated(applicationId, yandexIdLogin));
 }

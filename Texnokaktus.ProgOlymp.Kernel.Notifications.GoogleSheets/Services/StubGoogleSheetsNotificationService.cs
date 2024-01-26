@@ -10,8 +10,8 @@ internal class StubGoogleSheetsNotificationService(ILogger<StubGoogleSheetsNotif
         logger.LogInformation("Wrote to a table that registration is successful: {@EmailData}",
                               new
                               {
-                                  Email = applicationId,
-                                  ApplicationId = yandexIdLogin
+                                  ApplicationId = applicationId,
+                                  YandexIdLogin = yandexIdLogin
                               });
         return Task.CompletedTask;
     }
@@ -28,9 +28,14 @@ internal class StubGoogleSheetsNotificationService(ILogger<StubGoogleSheetsNotif
         return Task.CompletedTask;
     }
 
-    public Task SendYandexIdLoginDuplicateNotificationAsync(int applicationId)
+    public Task SendYandexIdLoginDuplicateNotificationAsync(int applicationId, string yandexIdLogin)
     {
-        logger.LogInformation("Wrote to a table that Yandex ID login in application {ApplicationId} is duplicated", applicationId);
+        logger.LogInformation("Wrote to a table that Yandex ID login in application is duplicated: {@Email data}",
+                              new
+                              {
+                                  ApplicationId = applicationId,
+                                  YandexIdLogin = yandexIdLogin
+                              });
         return Task.CompletedTask;
     }
 }

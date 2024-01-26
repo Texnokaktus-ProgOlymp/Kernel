@@ -9,5 +9,5 @@ public interface INotificationService
 
     Task SendInvalidEmailNotificationAsync(int applicationId, string email);
     Task SendIncorrectEmailDomainNotificationAsync(int applicationId, string email);
-    Task SendYandexIdLoginDuplicateNotificationAsync(int applicationId, string email);
+    Task SendYandexIdLoginDuplicateNotificationAsync(int applicationId, string email, string yandexIdLogin);
 }
