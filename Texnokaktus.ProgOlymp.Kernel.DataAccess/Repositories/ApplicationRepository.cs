@@ -11,16 +11,16 @@ internal class ApplicationRepository(AppDbContext context) : IApplicationReposit
     {
         var application = new Application
         {
+            GoogleServiceApplicationId = insertModel.GoogleServiceApplicationId,
             Submitted = insertModel.Submitted,
             // ContestLocation = insertModel.ContestLocation,
             YandexIdLogin = insertModel.YandexIdLogin,
             Grade = insertModel.Grade,
-            PersonalDataConsent = insertModel.PersonalDataConsent,
+            AgeCategory = insertModel.AgeCategory,
             ContestStageId = insertModel.ContestStageId,
-            Participant = insertModel.Participant,
-            School = insertModel.School,
-            Parent = insertModel.Parent,
-            Teacher = insertModel.Teacher
+            Name = insertModel.Name,
+            Email = insertModel.Email,
+            School = insertModel.School
         };
         return context.Applications.Add(application).Entity;
     }

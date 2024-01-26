@@ -8,17 +8,11 @@ namespace Texnokaktus.ProgOlymp.Kernel.DataAccess.Services;
 internal class UnitOfWork(AppDbContext context,
                           IApplicationRepository applicationRepository,
                           IApplicationTransactionRepository applicationTransactionRepository,
-                          IParentRepository parentRepository,
-                          IParticipantRepository participantRepository,
-                          ISchoolRepository schoolRepository,
-                          ITeacherRepository teacherRepository) : IUnitOfWork
+                          ISchoolRepository schoolRepository) : IUnitOfWork
 {
     public IApplicationRepository ApplicationRepository { get; } = applicationRepository;
 
     public IApplicationTransactionRepository ApplicationTransactionRepository { get; } = applicationTransactionRepository;
-    public IParentRepository ParentRepository { get; } = parentRepository;
-    public IParticipantRepository ParticipantRepository { get; } = participantRepository;
     public ISchoolRepository SchoolRepository { get; } = schoolRepository;
-    public ITeacherRepository TeacherRepository { get; } = teacherRepository;
     public async Task SaveChangesAsync() => await context.SaveChangesAsync();
 }

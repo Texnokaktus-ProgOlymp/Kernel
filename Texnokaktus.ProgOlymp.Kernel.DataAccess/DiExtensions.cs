@@ -16,8 +16,5 @@ public static class DiExtensions
                 .AddScoped<IUnitOfWork, UnitOfWork>()
                 .AddScoped<IApplicationRepository, ApplicationRepository>()
                 .AddScoped<IApplicationTransactionRepository, ApplicationTransactionRepository>()
-                .AddScoped<IParentRepository, ParentRepository>()
-                .AddScoped<IParticipantRepository, ParticipantRepository>()
-                .AddScoped<ISchoolRepository, SchoolRepository>()
-                .AddScoped<ITeacherRepository, TeacherRepository>();
+                .AddScoped<ISchoolRepository, SchoolRepository>();
 }

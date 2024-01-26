@@ -22,37 +22,30 @@ public class ApplicationConsumer(ILogger<ApplicationConsumer> logger,
         "yandex.kz",
         "yandex.ru"
     }.ToFrozenSet();
-    
+
     public async Task Consume(ConsumeContext<ParticipantApplication> context)
     {
-        var participantInsertModel = context.Message.GetParticipant();
-        var participant = unitOfWork.ParticipantRepository.Add(participantInsertModel);
-
         var schoolInsertModel = context.Message.GetSchool();
         var school = unitOfWork.SchoolRepository.Add(schoolInsertModel);
 
-        var parentInsertModel = context.Message.GetParent();
-        var parent = unitOfWork.ParentRepository.Add(parentInsertModel);
+        var participantEmail = context.Message.ParticipantEmail;
 
-        var teacherInsertModel = context.Message.GetTeacher();
-        var teacher = teacherInsertModel is not null ? unitOfWork.TeacherRepository.Add(teacherInsertModel) : null;
+        var (yandexIdLogin, yandexLoginStatus) = GetYandexIdLogin(participantEmail);
 
-        var (yandexIdLogin, yandexLoginStatus) = GetYandexIdLogin(participant.Email);
-
-        var applicationInsertModel = context.Message.GetApplication(yandexIdLogin, participant, school, parent, teacher);
+        var applicationInsertModel = context.Message.GetApplication(yandexIdLogin, school);
         var application = unitOfWork.ApplicationRepository.Add(applicationInsertModel);
 
         var applicationState = State.Pending;
-        
+
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (yandexLoginStatus)
         {
             case YandexLoginStatus.InvalidEmail:
-                await notificationService.SendInvalidEmailNotificationAsync(context.Message.ApplicationId, participant.Email);
+                await notificationService.SendInvalidEmailNotificationAsync(context.Message.ApplicationId, participantEmail);
                 applicationState = State.Failed;
                 break;
             case YandexLoginStatus.IncorrectDomain:
-                await notificationService.SendIncorrectEmailDomainNotificationAsync(context.Message.ApplicationId, participant.Email);
+                await notificationService.SendIncorrectEmailDomainNotificationAsync(context.Message.ApplicationId, participantEmail);
                 applicationState = State.Failed;
                 break;
         }
@@ -86,34 +79,17 @@ file static class MappingExtensions
 {
     public static ApplicationInsertModel GetApplication(this ParticipantApplication application,
                                                         string? yandexIdLogin,
-                                                        Participant participant,
-                                                        School school,
-                                                        Parent parent,
-                                                        Teacher? teacher) =>
-        new(application.SubmittedTime,
+                                                        School school) =>
+        new(application.ApplicationId,
+            application.SubmittedTime,
             yandexIdLogin,
             application.ParticipantGrade,
-            application.PersonalDataConsent,
+            application.AgeCategory,
             application.ContestStageId,
-            participant,
-            school,
-            parent,
-            teacher);
-
-    public static ParentInsertModel GetParent(this ParticipantApplication application) =>
-        new(application.ParentName, application.ParentEmail, application.ParentPhone);
-
-    public static ParticipantInsertModel GetParticipant(this ParticipantApplication application) =>
-        new(application.ParticipantName, application.ParticipantEmail, application.BirthDate);
+            application.ParticipantName,
+            application.ParticipantEmail,
+            school);
 
     public static SchoolInsertModel GetSchool(this ParticipantApplication application) =>
         new(application.School, application.SchoolRegion);
-
-    public static TeacherInsertModel? GetTeacher(this ParticipantApplication application) =>
-        application.TeacherName is not null
-     || application.TeacherSchool is not null
-     || application.TeacherEmail is not null
-     || application.TeacherPhone is not null
-            ? new(application.TeacherName, application.TeacherSchool, application.TeacherName, application.TeacherPhone)
-            : null;
 }

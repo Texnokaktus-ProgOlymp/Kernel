@@ -2,19 +2,16 @@ namespace Texnokaktus.ProgOlymp.Kernel.DataAccess.Entities;
 
 public record Application
 {
-    public int Id { get; set; }
-    public DateTime Submitted { get; set; }
-    // public string ContestLocation { get; set; }
-    public string? YandexIdLogin { get; set; }
-    public string Grade { get; set; }
-    public bool PersonalDataConsent { get; set; }
-    public int ContestStageId { get; set; }
-    public Participant Participant { get; set; }
-    public int ParticipantId { get; set; }
-    public School School { get; set; }
-    public int SchoolId { get; set; }
-    public Parent Parent { get; set; }
-    public int ParentId { get; set; }
-    public Teacher? Teacher { get; set; }
-    public int? TeacherId { get; set; }
+    public int Id { get; init; }
+    public required int GoogleServiceApplicationId { get; init; }
+    public required DateTime Submitted { get; init; }
+    // public required string ContestLocation { get; set; }
+    public required string? YandexIdLogin { get; init; }
+    public required string Grade { get; init; }
+    public required string AgeCategory { get; init; }
+    public required int ContestStageId { get; init; }
+    public required string Name { get; init; }
+    public required string Email { get; init; }
+    public School School { get; init; }
+    public int SchoolId { get; init; }
 }

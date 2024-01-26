@@ -2,12 +2,12 @@ using Texnokaktus.ProgOlymp.Kernel.DataAccess.Entities;
 
 namespace Texnokaktus.ProgOlymp.Kernel.DataAccess.Models;
 
-public record ApplicationInsertModel(DateTime Submitted,
+public record ApplicationInsertModel(int GoogleServiceApplicationId,
+                                     DateTime Submitted,
                                      string? YandexIdLogin,
                                      string Grade,
-                                     bool PersonalDataConsent,
+                                     string AgeCategory,
                                      int ContestStageId,
-                                     Participant Participant,
-                                     School School,
-                                     Parent Parent,
-                                     Teacher? Teacher);
+                                     string Name,
+                                     string Email,
+                                     School School);

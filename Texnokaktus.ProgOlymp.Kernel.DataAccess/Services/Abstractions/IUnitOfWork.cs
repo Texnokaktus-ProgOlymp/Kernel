@@ -6,9 +6,6 @@ public interface IUnitOfWork
 {
     IApplicationRepository ApplicationRepository { get; }
     IApplicationTransactionRepository ApplicationTransactionRepository { get; }
-    IParentRepository ParentRepository { get; }
-    IParticipantRepository ParticipantRepository { get; }
     ISchoolRepository SchoolRepository { get; }
-    ITeacherRepository TeacherRepository { get; }
     Task SaveChangesAsync();
 }
