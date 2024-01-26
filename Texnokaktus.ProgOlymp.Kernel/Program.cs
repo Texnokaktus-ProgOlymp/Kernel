@@ -1,13 +1,19 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Quartz;
 using Serilog;
 using Texnokaktus.ProgOlymp.Kernel.Consumers;
 using Texnokaktus.ProgOlymp.Kernel.DataAccess;
 using Texnokaktus.ProgOlymp.Kernel.Extensions;
 using Texnokaktus.ProgOlymp.Kernel.Jobs;
 using Texnokaktus.ProgOlymp.Kernel.Models.Configuration;
+using Texnokaktus.ProgOlymp.Kernel.Notifications.Email;
+using Texnokaktus.ProgOlymp.Kernel.Notifications.Email.Services.Abstractions;
+using Texnokaktus.ProgOlymp.Kernel.Options;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddJsonFile("appsettings.Secrets.json", false);
 
 builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
@@ -35,7 +41,10 @@ builder.Services
         })
        .AddQuartzHostedService();
 
-builder.Services.AddDataAccess(optionsBuilder => optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDb")));
+builder.Services
+       .AddDataAccess(optionsBuilder => optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDb")))
+       .AddAppOptions()
+       .AddEmailNotifications();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
