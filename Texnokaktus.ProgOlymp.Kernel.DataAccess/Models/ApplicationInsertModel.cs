@@ -3,8 +3,7 @@ using Texnokaktus.ProgOlymp.Kernel.DataAccess.Entities;
 namespace Texnokaktus.ProgOlymp.Kernel.DataAccess.Models;
 
 public record ApplicationInsertModel(DateTime Submitted,
-                                     string ContestLocation,
-                                     string YandexIdLogin,
+                                     string? YandexIdLogin,
                                      string Grade,
                                      bool PersonalDataConsent,
                                      int ContestStageId,

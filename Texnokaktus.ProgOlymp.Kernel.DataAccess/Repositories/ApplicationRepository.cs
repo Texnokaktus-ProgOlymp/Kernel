@@ -12,7 +12,7 @@ internal class ApplicationRepository(AppDbContext context) : IApplicationReposit
         var application = new Application
         {
             Submitted = insertModel.Submitted,
-            ContestLocation = insertModel.ContestLocation,
+            // ContestLocation = insertModel.ContestLocation,
             YandexIdLogin = insertModel.YandexIdLogin,
             Grade = insertModel.Grade,
             PersonalDataConsent = insertModel.PersonalDataConsent,

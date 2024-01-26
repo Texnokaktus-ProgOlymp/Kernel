@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Texnokaktus.ProgOlymp.Commo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Texnokaktus.ProgOlymp.Kernel.DataAccess", "Texnokaktus.ProgOlymp.Kernel.DataAccess\Texnokaktus.ProgOlymp.Kernel.DataAccess.csproj", "{32F5CAAB-B2A1-4949-873C-633D752BF1F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Texnokaktus.ProgOlymp.Kernel.Notifications.Email", "Texnokaktus.ProgOlymp.Kernel.Notifications.Email\Texnokaktus.ProgOlymp.Kernel.Notifications.Email.csproj", "{29A90BC9-8E00-46B2-B55D-473882327E4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Texnokaktus.ProgOlymp.Kernel.Options", "Texnokaktus.ProgOlymp.Kernel.Options\Texnokaktus.ProgOlymp.Kernel.Options.csproj", "{2F8713E5-76C0-4CB6-8188-84E317CEA3E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +30,14 @@ Global
 		{32F5CAAB-B2A1-4949-873C-633D752BF1F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32F5CAAB-B2A1-4949-873C-633D752BF1F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32F5CAAB-B2A1-4949-873C-633D752BF1F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29A90BC9-8E00-46B2-B55D-473882327E4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29A90BC9-8E00-46B2-B55D-473882327E4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29A90BC9-8E00-46B2-B55D-473882327E4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29A90BC9-8E00-46B2-B55D-473882327E4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F8713E5-76C0-4CB6-8188-84E317CEA3E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F8713E5-76C0-4CB6-8188-84E317CEA3E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F8713E5-76C0-4CB6-8188-84E317CEA3E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F8713E5-76C0-4CB6-8188-84E317CEA3E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DFE15C19-15AF-41E6-AB35-C98A19158FFE} = {910974DD-6F5B-4EC9-9489-0F5444FB9432}

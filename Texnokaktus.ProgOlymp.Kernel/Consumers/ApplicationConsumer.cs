@@ -1,18 +1,30 @@
+using System.Collections.Frozen;
 using MassTransit;
 using Texnokaktus.ProgOlymp.Common.Contracts.Messages.GoogleForms;
 using Texnokaktus.ProgOlymp.Kernel.DataAccess.Entities;
 using Texnokaktus.ProgOlymp.Kernel.DataAccess.Models;
 using Texnokaktus.ProgOlymp.Kernel.DataAccess.Services.Abstractions;
+using Texnokaktus.ProgOlymp.Kernel.Models;
+using Texnokaktus.ProgOlymp.Kernel.Notifications.Email.Services.Abstractions;
 using State = Texnokaktus.ProgOlymp.Kernel.DataAccess.Entities.State;
 
 namespace Texnokaktus.ProgOlymp.Kernel.Consumers;
 
-public class ApplicationConsumer(ILogger<ApplicationConsumer> logger, IUnitOfWork unitOfWork) : IConsumer<ParticipantApplication>
+public class ApplicationConsumer(ILogger<ApplicationConsumer> logger,
+                                 IUnitOfWork unitOfWork,
+                                 INotificationService notificationService) : IConsumer<ParticipantApplication>
 {
+    private static readonly FrozenSet<string> AllowedEmailDomains = new[]
+    {
+        "ya.ru",
+        "yandex.by",
+        "yandex.com",
+        "yandex.kz",
+        "yandex.ru"
+    }.ToFrozenSet();
+    
     public async Task Consume(ConsumeContext<ParticipantApplication> context)
     {
-        logger.LogInformation("Consuming");
-
         var participantInsertModel = context.Message.GetParticipant();
         var participant = unitOfWork.ParticipantRepository.Add(participantInsertModel);
 
@@ -25,25 +37,61 @@ public class ApplicationConsumer(ILogger<ApplicationConsumer> logger, IUnitOfWor
         var teacherInsertModel = context.Message.GetTeacher();
         var teacher = teacherInsertModel is not null ? unitOfWork.TeacherRepository.Add(teacherInsertModel) : null;
 
-        var applicationInsertModel = context.Message.GetApplication(participant, school, parent, teacher);
+        var (yandexIdLogin, yandexLoginStatus) = GetYandexIdLogin(participant.Email);
+
+        var applicationInsertModel = context.Message.GetApplication(yandexIdLogin, participant, school, parent, teacher);
         var application = unitOfWork.ApplicationRepository.Add(applicationInsertModel);
 
-        unitOfWork.ApplicationTransactionRepository.Add(new(application, State.Pending));
+        var applicationState = State.Pending;
+        
+        // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
+        switch (yandexLoginStatus)
+        {
+            case YandexLoginStatus.InvalidEmail:
+                await notificationService.SendInvalidEmailNotificationAsync(participant.Email);
+                applicationState = State.Failed;
+                break;
+            case YandexLoginStatus.IncorrectDomain:
+                await notificationService.SendIncorrectEmailDomainNotificationAsync(participant.Email);
+                applicationState = State.Failed;
+                break;
+        }
+
+        unitOfWork.ApplicationTransactionRepository.Add(new(application, applicationState));
 
         await unitOfWork.SaveChangesAsync();
+    }
+
+    private (string? YandexIdLogin, YandexLoginStatus Status) GetYandexIdLogin(string email)
+    {
+        var emailParts = email.Split('@');
+        if (emailParts.Length != 2)
+        {
+            logger.LogWarning("The email {ParticipantEmail} is invalid", email);
+            return (null, YandexLoginStatus.InvalidEmail);
+        }
+
+        // ReSharper disable once InvertIf
+        if (!AllowedEmailDomains.Contains(emailParts[2]))
+        {
+            logger.LogWarning("The email {ParticipantEmail} is not allowed by its domain", email);
+            return (null, YandexLoginStatus.IncorrectDomain);
+        }
+
+        return (emailParts[0], YandexLoginStatus.Defined);
     }
 }
 
 file static class MappingExtensions
 {
     public static ApplicationInsertModel GetApplication(this ParticipantApplication application,
+                                                        string? yandexIdLogin,
                                                         Participant participant,
                                                         School school,
                                                         Parent parent,
                                                         Teacher? teacher) =>
         new(application.SubmittedTime,
-            application.ContestLocation,
-            application.YandexIdLogin,
+            yandexIdLogin,
             application.ParticipantGrade,
             application.PersonalDataConsent,
             application.ContestStageId,

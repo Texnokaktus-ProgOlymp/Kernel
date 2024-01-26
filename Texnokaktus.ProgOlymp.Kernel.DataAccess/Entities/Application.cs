@@ -4,8 +4,8 @@ public record Application
 {
     public int Id { get; set; }
     public DateTime Submitted { get; set; }
-    public string ContestLocation { get; set; }
-    public string YandexIdLogin { get; set; }
+    // public string ContestLocation { get; set; }
+    public string? YandexIdLogin { get; set; }
     public string Grade { get; set; }
     public bool PersonalDataConsent { get; set; }
     public int ContestStageId { get; set; }

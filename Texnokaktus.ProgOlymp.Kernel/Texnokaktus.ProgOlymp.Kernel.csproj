@@ -22,6 +22,7 @@
     <ItemGroup>
       <ProjectReference Include="..\modules\Common.Contracts\Texnokaktus.ProgOlymp.Common.Contracts\Texnokaktus.ProgOlymp.Common.Contracts.csproj" />
       <ProjectReference Include="..\Texnokaktus.ProgOlymp.Kernel.DataAccess\Texnokaktus.ProgOlymp.Kernel.DataAccess.csproj" />
+      <ProjectReference Include="..\Texnokaktus.ProgOlymp.Kernel.Notifications.Email\Texnokaktus.ProgOlymp.Kernel.Notifications.Email.csproj" />
     </ItemGroup>
 
     <ItemGroup>
