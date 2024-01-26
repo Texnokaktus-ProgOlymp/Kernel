@@ -9,6 +9,7 @@ using Texnokaktus.ProgOlymp.Kernel.Jobs;
 using Texnokaktus.ProgOlymp.Kernel.Models.Configuration;
 using Texnokaktus.ProgOlymp.Kernel.Notifications.Email;
 using Texnokaktus.ProgOlymp.Kernel.Notifications.Email.Services.Abstractions;
+using Texnokaktus.ProgOlymp.Kernel.Notifications.GoogleSheets;
 using Texnokaktus.ProgOlymp.Kernel.Options;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,7 +45,8 @@ builder.Services
 builder.Services
        .AddDataAccess(optionsBuilder => optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDb")))
        .AddAppOptions()
-       .AddEmailNotifications();
+       .AddEmailNotifications(useStubService: builder.Environment.IsDevelopment())
+       .AddGoogleSheetsNotifications(useStubService: builder.Environment.IsDevelopment());
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

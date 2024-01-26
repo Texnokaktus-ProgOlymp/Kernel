@@ -1,6 +1,6 @@
 namespace Texnokaktus.ProgOlymp.Kernel.Notifications.Email.Services.Abstractions;
 
-public interface INotificationService
+public interface IEmailNotificationService
 {
     Task SendRegistrationSuccessfulNotificationAsync(string email, string contestUrl, string yandexIdLogin);
     Task SendInvalidEmailNotificationAsync(string email);

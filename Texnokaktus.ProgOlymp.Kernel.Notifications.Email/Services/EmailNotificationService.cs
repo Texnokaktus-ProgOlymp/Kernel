@@ -3,7 +3,7 @@ using Texnokaktus.ProgOlymp.Kernel.Notifications.Email.Services.Abstractions;
 
 namespace Texnokaktus.ProgOlymp.Kernel.Notifications.Email.Services;
 
-internal class NotificationService(IEmailClient emailClient) : INotificationService
+internal class EmailNotificationService(IEmailClient emailClient) : IEmailNotificationService
 {
     public async Task SendRegistrationSuccessfulNotificationAsync(string email, string contestUrl, string yandexIdLogin)
     {

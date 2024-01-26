@@ -5,7 +5,7 @@ using Texnokaktus.ProgOlymp.Kernel.DataAccess.Entities;
 using Texnokaktus.ProgOlymp.Kernel.DataAccess.Models;
 using Texnokaktus.ProgOlymp.Kernel.DataAccess.Services.Abstractions;
 using Texnokaktus.ProgOlymp.Kernel.Models;
-using Texnokaktus.ProgOlymp.Kernel.Notifications.Email.Services.Abstractions;
+using Texnokaktus.ProgOlymp.Kernel.Services.Abstractions;
 using State = Texnokaktus.ProgOlymp.Kernel.DataAccess.Entities.State;
 
 namespace Texnokaktus.ProgOlymp.Kernel.Consumers;
@@ -48,11 +48,11 @@ public class ApplicationConsumer(ILogger<ApplicationConsumer> logger,
         switch (yandexLoginStatus)
         {
             case YandexLoginStatus.InvalidEmail:
-                await notificationService.SendInvalidEmailNotificationAsync(participant.Email);
+                await notificationService.SendInvalidEmailNotificationAsync(context.Message.ApplicationId, participant.Email);
                 applicationState = State.Failed;
                 break;
             case YandexLoginStatus.IncorrectDomain:
-                await notificationService.SendIncorrectEmailDomainNotificationAsync(participant.Email);
+                await notificationService.SendIncorrectEmailDomainNotificationAsync(context.Message.ApplicationId, participant.Email);
                 applicationState = State.Failed;
                 break;
         }

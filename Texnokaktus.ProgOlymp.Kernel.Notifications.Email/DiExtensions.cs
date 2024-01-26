@@ -6,7 +6,15 @@ namespace Texnokaktus.ProgOlymp.Kernel.Notifications.Email;
 
 public static class DiExtensions
 {
-    public static IServiceCollection AddEmailNotifications(this IServiceCollection services) =>
-        services.AddScoped<IEmailClient, EmailClient>()
-                .AddScoped<INotificationService, NotificationService>();
+    public static IServiceCollection AddEmailNotifications(this IServiceCollection services, bool useStubService)
+    {
+        services.AddScoped<IEmailClient, EmailClient>();
+
+        if (useStubService)
+            services.AddScoped<IEmailNotificationService, StubEmailNotificationService>();
+        else
+            services.AddScoped<IEmailNotificationService, EmailNotificationService>();
+
+        return services;
+    }
 }

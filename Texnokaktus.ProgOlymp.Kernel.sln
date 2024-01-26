@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Texnokaktus.ProgOlymp.Kerne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Texnokaktus.ProgOlymp.Kernel.Options", "Texnokaktus.ProgOlymp.Kernel.Options\Texnokaktus.ProgOlymp.Kernel.Options.csproj", "{2F8713E5-76C0-4CB6-8188-84E317CEA3E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Texnokaktus.ProgOlymp.Kernel.Notifications.GoogleSheets", "Texnokaktus.ProgOlymp.Kernel.Notifications.GoogleSheets\Texnokaktus.ProgOlymp.Kernel.Notifications.GoogleSheets.csproj", "{D70B73C2-198F-445A-9DA5-7CA1C6524F80}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{2F8713E5-76C0-4CB6-8188-84E317CEA3E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F8713E5-76C0-4CB6-8188-84E317CEA3E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F8713E5-76C0-4CB6-8188-84E317CEA3E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D70B73C2-198F-445A-9DA5-7CA1C6524F80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D70B73C2-198F-445A-9DA5-7CA1C6524F80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D70B73C2-198F-445A-9DA5-7CA1C6524F80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D70B73C2-198F-445A-9DA5-7CA1C6524F80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DFE15C19-15AF-41E6-AB35-C98A19158FFE} = {910974DD-6F5B-4EC9-9489-0F5444FB9432}
