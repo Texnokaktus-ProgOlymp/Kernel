@@ -6,7 +6,7 @@ namespace Texnokaktus.ProgOlymp.Kernel.Infrastructure.Clients;
 
 internal class RegistrationServiceClient(RegistrationService.RegistrationServiceClient client) : IRegistrationServiceClient
 {
-    public async Task RegisterParticipantAsync(int contestStageId, string yandexIdLogin)
+    public async Task<string> RegisterParticipantAsync(int contestStageId, string yandexIdLogin)
     {
         var response = await client.RegisterParticipantAsync(new()
         {
@@ -16,6 +16,11 @@ internal class RegistrationServiceClient(RegistrationService.RegistrationService
 
         if (response.Error is { } error)
             throw new RegistrationException(error.Type, error.Message);
+
+        if (response.ContestUrl is null)
+            throw new RegistrationException(ErrorType.Generic, $"No {nameof(RegisterParticipantResponse.ContestUrl)} value is provided in response.");
+
+        return response.ContestUrl;
     }
 
     public async Task UnregisterParticipantAsync(int contestStageId, string yandexIdLogin)
