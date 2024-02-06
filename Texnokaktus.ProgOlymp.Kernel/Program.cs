@@ -2,15 +2,18 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 using Serilog;
+using Texnokaktus.ProgOlymp.Common.Contracts.Grpc.YandexContest;
 using Texnokaktus.ProgOlymp.Kernel.Consumers;
 using Texnokaktus.ProgOlymp.Kernel.DataAccess;
 using Texnokaktus.ProgOlymp.Kernel.Extensions;
+using Texnokaktus.ProgOlymp.Kernel.Infrastructure;
 using Texnokaktus.ProgOlymp.Kernel.Jobs;
 using Texnokaktus.ProgOlymp.Kernel.Models.Configuration;
 using Texnokaktus.ProgOlymp.Kernel.Notifications.Email;
-using Texnokaktus.ProgOlymp.Kernel.Notifications.Email.Services.Abstractions;
 using Texnokaktus.ProgOlymp.Kernel.Notifications.GoogleSheets;
 using Texnokaktus.ProgOlymp.Kernel.Options;
+using Texnokaktus.ProgOlymp.Kernel.Services;
+using Texnokaktus.ProgOlymp.Kernel.Services.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,7 +49,12 @@ builder.Services
        .AddDataAccess(optionsBuilder => optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDb")))
        .AddAppOptions()
        .AddEmailNotifications(useStubService: builder.Environment.IsDevelopment())
-       .AddGoogleSheetsNotifications(useStubService: builder.Environment.IsDevelopment());
+       .AddGoogleSheetsNotifications(useStubService: builder.Environment.IsDevelopment())
+       .AddScoped<INotificationService, NotificationService>();
+
+builder.Services
+       .AddGrpcClients()
+       .AddGrpcClient<RegistrationService.RegistrationServiceClient>(options => options.Address = new(builder.Configuration.GetConnectionString(nameof(RegistrationService))!));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
