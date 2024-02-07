@@ -6,4 +6,5 @@ public class ApplicationTransaction
     public Application Application { get; set; }
     public int ApplicationId { get; set; }
     public State State { get; set; }
+    public ErrorCode? ErrorCode { get; set; }
 }

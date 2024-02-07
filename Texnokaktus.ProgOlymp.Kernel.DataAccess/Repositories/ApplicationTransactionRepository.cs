@@ -3,8 +3,9 @@ using Texnokaktus.ProgOlymp.Kernel.DataAccess.Context;
 using Texnokaktus.ProgOlymp.Kernel.DataAccess.Entities;
 using Texnokaktus.ProgOlymp.Kernel.DataAccess.Exceptions;
 using Texnokaktus.ProgOlymp.Kernel.DataAccess.Models;
+using Texnokaktus.ProgOlymp.Kernel.DataAccess.Repositories.Abstractions;
 
-namespace Texnokaktus.ProgOlymp.Kernel.DataAccess.Repositories.Abstractions;
+namespace Texnokaktus.ProgOlymp.Kernel.DataAccess.Repositories;
 
 internal class ApplicationTransactionRepository(AppDbContext context) : IApplicationTransactionRepository
 {
@@ -18,12 +19,11 @@ internal class ApplicationTransactionRepository(AppDbContext context) : IApplica
         return context.ApplicationTransactions.Add(applicationTransaction).Entity;
     }
 
-    public async Task SetStateAsync(int id, State state)
+    public async Task UpdateAsync(int id, Action<ApplicationTransaction> updateAction)
     {
-        var transaction = await context.ApplicationTransactions.FirstOrDefaultAsync(application => application.Id == id)
+        var transaction = await context.ApplicationTransactions.FindAsync(id)
                        ?? throw new EntityNotFoundException<ApplicationTransaction>($"Could not find the {nameof(ApplicationTransaction)} with ID {id}.");
-        transaction.State = state;
-        context.ApplicationTransactions.Update(transaction);
+        updateAction.Invoke(transaction);
     }
 
     public async Task<IList<ApplicationTransaction>> GetPendingTransactions() =>

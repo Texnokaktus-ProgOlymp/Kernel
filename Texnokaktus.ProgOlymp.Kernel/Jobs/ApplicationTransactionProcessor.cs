@@ -1,10 +1,10 @@
 using Quartz;
 using Texnokaktus.ProgOlymp.Common.Contracts.Grpc.YandexContest;
+using Texnokaktus.ProgOlymp.Kernel.DataAccess.Entities;
 using Texnokaktus.ProgOlymp.Kernel.DataAccess.Services.Abstractions;
 using Texnokaktus.ProgOlymp.Kernel.Infrastructure.Clients.Abstractions;
 using Texnokaktus.ProgOlymp.Kernel.Infrastructure.Exceptions;
 using Texnokaktus.ProgOlymp.Kernel.Services.Abstractions;
-using State = Texnokaktus.ProgOlymp.Kernel.DataAccess.Entities.State;
 
 namespace Texnokaktus.ProgOlymp.Kernel.Jobs;
 
@@ -22,7 +22,7 @@ public class ApplicationTransactionProcessor(ILogger<ApplicationTransactionProce
             if (transaction.Application.YandexIdLogin == null)
             {
                 logger.LogError("The application {ApplicationId} does not have a YandexIdLogin", transaction.Application.Id);
-                await unitOfWork.ApplicationTransactionRepository.SetStateAsync(transaction.Id, State.Failed);
+                await unitOfWork.ApplicationTransactionRepository.UpdateAsync(transaction.Id, applicationTransaction => applicationTransaction.State = State.Failed);
                 await unitOfWork.SaveChangesAsync();
                 continue;
             }
@@ -31,7 +31,11 @@ public class ApplicationTransactionProcessor(ILogger<ApplicationTransactionProce
             {
                 var contestUrl = await registrationServiceClient.RegisterParticipantAsync(transaction.Application.ContestStageId, 
                                                                                           transaction.Application.YandexIdLogin);
-                await unitOfWork.ApplicationTransactionRepository.SetStateAsync(transaction.Id, State.Completed);
+                await unitOfWork.ApplicationTransactionRepository.UpdateAsync(transaction.Id, applicationTransaction =>
+                {
+                    applicationTransaction.State = State.Completed;
+                    applicationTransaction.ErrorCode = null;
+                });
                 await notificationService.SendRegistrationSuccessfulNotificationAsync(transaction.ApplicationId,
                                                                                       transaction.Application.Email,
                                                                                       contestUrl,
@@ -42,7 +46,11 @@ public class ApplicationTransactionProcessor(ILogger<ApplicationTransactionProce
                 logger.LogWarning(e, "Handling invalid Yandex user in transaction {TransactionId}", transaction.Id);
                 await notificationService.SendInvalidEmailNotificationAsync(transaction.ApplicationId,
                                                                             transaction.Application.Email);
-                await unitOfWork.ApplicationTransactionRepository.SetStateAsync(transaction.Id, State.Failed);
+                await unitOfWork.ApplicationTransactionRepository.UpdateAsync(transaction.Id, applicationTransaction =>
+                {
+                    applicationTransaction.State = State.Failed;
+                    applicationTransaction.ErrorCode = ErrorCode.InvalidUser;
+                });
             }
             catch (RegistrationException e) when (e.ErrorType == ErrorType.UserIsAlreadyRegistered)
             {
@@ -50,12 +58,20 @@ public class ApplicationTransactionProcessor(ILogger<ApplicationTransactionProce
                 await notificationService.SendYandexIdLoginDuplicateNotificationAsync(transaction.ApplicationId, 
                                                                                       transaction.Application.Email,
                                                                                       transaction.Application.YandexIdLogin);
-                await unitOfWork.ApplicationTransactionRepository.SetStateAsync(transaction.Id, State.Failed);
+                await unitOfWork.ApplicationTransactionRepository.UpdateAsync(transaction.Id, applicationTransaction =>
+                {
+                    applicationTransaction.State = State.Failed;
+                    applicationTransaction.ErrorCode = ErrorCode.UserIsAlreadyRegistered;
+                });
             }
             catch (Exception e)
             {
                 logger.LogError(e, "An error occurred when processing application {TransactionId}", transaction.Id);
-                await unitOfWork.ApplicationTransactionRepository.SetStateAsync(transaction.Id, State.Failed);
+                await unitOfWork.ApplicationTransactionRepository.UpdateAsync(transaction.Id, applicationTransaction =>
+                {
+                    applicationTransaction.State = State.Failed;
+                    applicationTransaction.ErrorCode = ErrorCode.Generic;
+                });
             }
             finally
             {
