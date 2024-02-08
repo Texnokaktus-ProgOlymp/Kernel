@@ -30,7 +30,7 @@ internal class StubGoogleSheetsNotificationService(ILogger<StubGoogleSheetsNotif
 
     public Task SendYandexIdLoginDuplicateNotificationAsync(int applicationId, string yandexIdLogin)
     {
-        logger.LogInformation("Wrote to a table that Yandex ID login in application is duplicated: {@Email data}",
+        logger.LogInformation("Wrote to a table that Yandex ID login in application is duplicated: {@EmailData}",
                               new
                               {
                                   ApplicationId = applicationId,

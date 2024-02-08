@@ -36,7 +36,7 @@ public class ApplicationTransactionProcessor(ILogger<ApplicationTransactionProce
                     applicationTransaction.State = State.Completed;
                     applicationTransaction.ErrorCode = null;
                 });
-                await notificationService.SendRegistrationSuccessfulNotificationAsync(transaction.ApplicationId,
+                await notificationService.SendRegistrationSuccessfulNotificationAsync(transaction.Application.GoogleServiceApplicationId,
                                                                                       transaction.Application.Email,
                                                                                       contestUrl,
                                                                                       transaction.Application.YandexIdLogin);
@@ -44,7 +44,7 @@ public class ApplicationTransactionProcessor(ILogger<ApplicationTransactionProce
             catch (RegistrationException e) when (e.ErrorType == ErrorType.InvalidUser)
             {
                 logger.LogWarning(e, "Handling invalid Yandex user in transaction {TransactionId}", transaction.Id);
-                await notificationService.SendInvalidEmailNotificationAsync(transaction.ApplicationId,
+                await notificationService.SendInvalidEmailNotificationAsync(transaction.Application.GoogleServiceApplicationId,
                                                                             transaction.Application.Email);
                 await unitOfWork.ApplicationTransactionRepository.UpdateAsync(transaction.Id, applicationTransaction =>
                 {
@@ -55,7 +55,7 @@ public class ApplicationTransactionProcessor(ILogger<ApplicationTransactionProce
             catch (RegistrationException e) when (e.ErrorType == ErrorType.UserIsAlreadyRegistered)
             {
                 logger.LogWarning(e, "Handling duplicated Yandex user in application {TransactionId}", transaction.Id);
-                await notificationService.SendYandexIdLoginDuplicateNotificationAsync(transaction.ApplicationId, 
+                await notificationService.SendYandexIdLoginDuplicateNotificationAsync(transaction.Application.GoogleServiceApplicationId, 
                                                                                       transaction.Application.Email,
                                                                                       transaction.Application.YandexIdLogin);
                 await unitOfWork.ApplicationTransactionRepository.UpdateAsync(transaction.Id, applicationTransaction =>

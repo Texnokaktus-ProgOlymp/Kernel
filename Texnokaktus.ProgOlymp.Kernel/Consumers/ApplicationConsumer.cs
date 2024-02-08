@@ -65,7 +65,7 @@ public class ApplicationConsumer(ILogger<ApplicationConsumer> logger,
         }
 
         // ReSharper disable once InvertIf
-        if (!AllowedEmailDomains.Contains(emailParts[2]))
+        if (!AllowedEmailDomains.Contains(emailParts[1]))
         {
             logger.LogWarning("The email {ParticipantEmail} is not allowed by its domain", email);
             return (null, YandexLoginStatus.IncorrectDomain);
