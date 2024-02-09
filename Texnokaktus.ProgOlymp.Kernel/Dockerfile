@@ -10,6 +10,10 @@ WORKDIR /src
 COPY ["Texnokaktus.ProgOlymp.Kernel/Texnokaktus.ProgOlymp.Kernel.csproj", "Texnokaktus.ProgOlymp.Kernel/"]
 COPY ["modules/Common.Contracts/Texnokaktus.ProgOlymp.Common.Contracts/Texnokaktus.ProgOlymp.Common.Contracts.csproj", "modules/Common.Contracts/Texnokaktus.ProgOlymp.Common.Contracts/"]
 COPY ["Texnokaktus.ProgOlymp.Kernel.DataAccess/Texnokaktus.ProgOlymp.Kernel.DataAccess.csproj", "Texnokaktus.ProgOlymp.Kernel.DataAccess/"]
+COPY ["Texnokaktus.ProgOlymp.Kernel.Infrastructure/Texnokaktus.ProgOlymp.Kernel.Infrastructure.csproj", "Texnokaktus.ProgOlymp.Kernel.Infrastructure/"]
+COPY ["Texnokaktus.ProgOlymp.Kernel.Notifications.Email/Texnokaktus.ProgOlymp.Kernel.Notifications.Email.csproj", "Texnokaktus.ProgOlymp.Kernel.Notifications.Email/"]
+COPY ["Texnokaktus.ProgOlymp.Kernel.Options/Texnokaktus.ProgOlymp.Kernel.Options.csproj", "Texnokaktus.ProgOlymp.Kernel.Options/"]
+COPY ["Texnokaktus.ProgOlymp.Kernel.Notifications.GoogleSheets/Texnokaktus.ProgOlymp.Kernel.Notifications.GoogleSheets.csproj", "Texnokaktus.ProgOlymp.Kernel.Notifications.GoogleSheets/"]
 RUN dotnet restore "Texnokaktus.ProgOlymp.Kernel/Texnokaktus.ProgOlymp.Kernel.csproj"
 COPY . .
 WORKDIR "/src/Texnokaktus.ProgOlymp.Kernel"
