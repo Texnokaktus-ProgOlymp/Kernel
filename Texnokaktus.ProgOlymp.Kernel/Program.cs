@@ -17,8 +17,6 @@ using Texnokaktus.ProgOlymp.Kernel.Services.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddJsonFile("appsettings.Secrets.json", false);
-
 builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
 builder.Services.AddMassTransit(configurator =>
