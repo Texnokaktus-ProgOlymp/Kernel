@@ -16,8 +16,7 @@ internal class NotificationService(IEmailNotificationService emailNotificationSe
                            googleSheetsNotificationService.SendRegistrationSuccessfulNotificationAsync(applicationId, yandexIdLogin));
 
     public async Task SendInvalidEmailNotificationAsync(int applicationId, string email) =>
-        await Task.WhenAll(emailNotificationService.SendInvalidEmailNotificationAsync(email),
-                           googleSheetsNotificationService.SendInvalidEmailNotificationAsync(applicationId));
+        await googleSheetsNotificationService.SendInvalidEmailNotificationAsync(applicationId);
 
     public async Task SendIncorrectEmailDomainNotificationAsync(int applicationId, string email) =>
         await Task.WhenAll(emailNotificationService.SendIncorrectEmailDomainNotificationAsync(email),
