@@ -8,10 +8,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Grpc.Net.Client" Version="2.60.0" />
+        <PackageReference Include="Grpc.Net.Client" Version="2.61.0" />
         <PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
         <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.3" />
-        <PackageReference Include="Quartz.AspNetCore" Version="3.8.0" />
+        <PackageReference Include="Quartz.AspNetCore" Version="3.8.1" />
         <PackageReference Include="Serilog.Enrichers.AssemblyName" Version="1.0.9" />
         <PackageReference Include="Serilog.Enrichers.Environment" Version="2.3.0" />
         <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
